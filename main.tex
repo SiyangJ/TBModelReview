@@ -1,0 +1,261 @@
+\documentclass[8pt,twocolumn]{extarticle}
+%\usepackage[affil-it]{authblk}
+\usepackage{extsizes}
+\usepackage{multicol}
+
+\usepackage[margin=0.7in]{geometry}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\newcommand{\arima}{\text{ARIMA}}
+
+\makeatletter
+\renewcommand{\maketitle}{\bgroup\setlength{\parindent}{0pt}
+\begin{flushleft}
+\textbf{\@title}
+\vspace{0.5cm}
+\@author
+\end{flushleft}\egroup
+}
+\makeatother
+
+\title{\Large{Title: Review of Mathematical Models for Tuberculosis Modeling\\Running: Mathematical Models for Tuberculosis}}
+
+\author{%
+\begin{tabular}{l} \textbf{Xinrui Ma} \\ State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics, School of Public Health, Xiamen University\\4221-117 South Xiang’an Road, Xiang’an District, Xiamen, Fujian Province, People’s Republic of China\\Email: xinrui\_ma@qq.com \\ \\
+\textbf{Siyang Jing} \\ Department of Mathematics, University of North Carolina at Chapel Hill\\120 E Cameron Avenue, Chapel Hill, North Carolina, the United States of America\\Email: siyangj@live.unc.edu \\
+\\
+\textbf{Benhua Zhao}\textsuperscript{\#} \\ State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics, School of Public Health, Xiamen University\\4221-117 South Xiang’an Road, Xiang’an District, Xiamen, Fujian Province, People’s Republic of China\\Email: benhuazhao@163.com \\ 
+\\
+\textbf{Tianmu Chen}\textsuperscript{\#} \\ State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics, School of Public Health, Xiamen University\\4221-117 South Xiang’an Road, Xiang’an District, Xiamen, Fujian Province, People’s Republic of China\\Email: 13698665@qq.com\\
+\\
+\# \textbf{Corrsponding author}\\
+\textbf{Benhua Zhao}\textsuperscript{\#} \\ State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics, School of Public Health, Xiamen University\\4221-117 South Xiang’an Road, Xiang’an District, Xiamen, Fujian Province, People’s Republic of China\\Email: benhuazhao@163.com \\ 
+\\
+\textbf{Tianmu Chen}\textsuperscript{\#} \\ State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics, School of Public Health, Xiamen University\\4221-117 South Xiang’an Road, Xiang’an District, Xiamen, Fujian Province, People’s Republic of China\\Email: 13698665@qq.com\\Tel: +86-13661934715 \\
+\end{tabular} }
+\providecommand{\keywords}[1]{\textbf{\textit{Keywords---}} #1}
+
+% \author{Xinrui Ma}
+% \affil{State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics, School of Public Health, Xiamen University\\4221-117 South Xiang’an Road, Xiang’an District, Xiamen, Fujian Province, People’s Republic of China\\Email: xinrui_ma\@qq.com}
+% \author{Siyang Jing}
+% \affil{Department of Mathematics, University of North Carolina at Chapel Hill\\120 E Cameron Avenue, Chapel Hill, North Carolina, the United States of America\\Email: siyangj\@live.unc.edu}
+
+\date{April 2019}
+
+\begin{document}
+
+%\begin{multicols}{2}
+\twocolumn[
+\maketitle
+%\end{multicols}
+
+\begin{abstract}
+
+Tuberculosis (TB) has been one of the most deadliest infectious diseases in the world since the very beginning of human history and it still maintains a successful strategy to survive. About one-third of the world’s population is infected with tuberculosis bacteria.
+Understanding the transmission dynamics of TB is crucial to its surveillance, prevention, assessment, and control. Since last century, epidemiology has become increasingly integrated with mathematics, sociology, management science, complexity science, and computer science. The interdisciplinary effort has caused rapid development of mathematical and computational approaches to TB modeling. In recent years, numerous mathematical and computational approaches have been proposed to model the epidemic spread patterns and evaluating policies for disease control. These models can be continuous or discrete, deterministic or stochastic, or demographically homogeneous or heterogeneous. In this article, we review three major types of epidemic models (1) statistical models, (2) ordinary differential equations models, and (3) individual-based models (IBM). We present the principles and basic concepts underpinning their formulation and implementation. We also list relevant applications for each category and some potential advantages and limitations of these models.
+At last, we discuss some future directions in TB modeling.
+
+\end{abstract}
+
+\keywords{Mathematical model; Tuberculosis; Review}
+\vspace{0.7cm}
+]
+
+% \begin{keyword}
+% Mathematical model; Tuberculosis; Review
+% \end{keyword}
+\section{Introduction}
+
+%Abstract：TB疾病负担 数学方法成为TB防控重要的手段，研究多 截至目前现有的TB建模方法 归为三类 为将来TB的传染病建模和防控效果提供参考
+%介绍肺结核
+%全球流行现状 中国现状 云南现状 防控措施（提及数学模型）
+Tuberculosis (TB), the ninth leading cause of death worldwide, is a respiratory disease caused by Mycobacterium tuberculosis that most often affects the lungs. In 2017, TB caused an estimated 1.3 million deaths(range, 1.2-1.4 million) among HIV-negative people and there were an additional 30 thousand deaths from TB(range,266000-335000) among HIV-positive people. TB also show location preference and two thirds were in eight countries: India(27\%), China(9\%), Indonesia(8\%), the Philippines(6\%), Pakistan(5\%), Nigeria(4\%), Bangladesh(4\%) and South Africa(3\%). \cite{report2018}TB is also called the disease of poverty because all of these countries are developing countries with Per Capita GDP in the latter 50\%. In 2017, China ranked second in the world for the number of TB patients.\cite{report2018}
+The country began to address its tuberculosis problem on a large scale in the 1990s when a tuberculosis control project, containing key elements of the internationally recommended directly observed treatment, short-course (DOTS) strategy, was implemented in 13 provinces containing half the country's population \cite{China1996}. Two national surveys of the prevalence of tuberculosis—done in 1990 and 2000—showed a 30\% increased reduction in tuberculosis prevalence in areas that implemented this project \cite{China2004}.
+
+In another half of China that did not implement the project funded by the World Bank, the prevalence of tuberculosis did not fall during the 1990s \cite{China1992}.
+
+To accelerate the national tuberculosis control effort, the State Council of China expanded the DOTS program to the entire country by 2005 after issuing a new 10-year tuberculosis control plan in 2001. A previous report detailed the measures developed and implemented by the government to increase the number of tuberculosis patients treated in the DOTS program \cite{China1992}. Through these efforts, China achieved the 2005 global tuberculosis control targets of detecting at least 70\% of all estimated new smear-positive tuberculosis cases and successfully treating more than 85\% of these patients—the only country with a high tuberculosis burden to achieve this \cite{WHO2011, Global2006}.
+
+To re-evaluate China's tuberculosis burden, a national tuberculosis prevalence survey was done in 2010. With the 2010 diagnostic protocol, 1310 cases of active pulmonary tuberculosis were detected, of which 347 were bacteriologically positive (119 per 100,000 population; 95\% CI 103–135) and 188 were sputum smear-positive (66 per 100,000 population; 95\% CI 53–79) \cite{China2014}. However, in 2017, China still ranked second in the world for the number of TB patients.
+Here,we reviewed three major types of epidemic models (1) statistical models, (2) ordinary differential equations models, and (3) individual-based models (IBM) and present the principles and basic concepts underpinning their formulation and implementation.
+\section{Mathematical Models}
+Mathematical models in epidemiology to understand the natural history of the disease, estimate the impact and key determinants in controlling strategies. It has also been applied to estimating the impact of new diagnostics. 
+
+TB is a curable disease, and timely detection and effective treatment are the most important components of disease control \cite{WHO2016}. End TB Strategy, policymakers require guidance about which interventions and technologies to use—questions that are unlikely to be answered by empirical studies, considering the difficulty of testing all possible approaches at high scale before policy decisions are made \cite{WHO2016}. Mathematical modeling is a powerful tool to support policy discussions and prioritize optimization of the allocation of health resources and medical services,
+
+The modeling in interventions is especially applied in estimating the population impact of intervention over time and understanding the most influential aspects of the interventions, which can be used to support research funding trial design and product pipeline. Advantages of modeling interventions are that first, models are flexible. We can evaluate single or combination of interventions and alternative roll-out strategies. We can also extrapolate to different epidemiological situations or populations. Second, Models capture mechanics of intervention and can project into the future. Third is that modeling studies are(relatively) cheap and fast.
+
+Mathematical modeling and simulation allow for rapid assessment. Simulation is also used when the cost of collecting data is prohibitively expensive, or there are a large number of experimental conditions to test. Over the years, a vast number of approaches have been proposed to tackle different problems of TB from various perspectives. The three major types of methods include 
+\begin{itemize}
+    \item statistical methods for the prediction of incidence and surveillance of outbreaks,
+    \item ordinary differential equation  models within the context of dynamical systems used to forecast the evolution of an epidemic spread and model the effect of the intervention
+    \item individual-based models that incorporate more details of the transmission dynamics and closely resembles reality.
+\end{itemize}
+For all these categories there are different approaches weaving big and diverse literature. Here, we try to draw the map of these approaches and try to describe their basic underpinning concepts. 
+ 
+\section{Statistical Methods}
+Statistical methods, which mainly revolve around time series analysis techniques, allow researchers to study the temporal pattern and change of tuberculosis. Usually, such studies are concerned with the changes in incidence in the past 5 to 20 years and the forecast of the future incidence on a national or state level. Reviewing temporal changes and prediction of incidence plays an important role in surveilling potential epidemic outbreaks, discovering potential vulnerabilities in health policy, developing control and intervention programs, and optimally allocating resources \cite{Siettos2013}. 
+
+Most statistical methods could be formulated as regression models, under the assumption that the future incidence can be solely determined by the past incidence. Although such an assumption is far from perfect, studies are nevertheless able to reveal qualitatively valuable patterns and dynamics. With sufficient historical data, time series models provide good interpolation and short-term prediction and also offer a certain level of interpretability. For example, time series analysis could be used to detect an outbreak from past data by monitoring a statistic of reported infected cases, say $y(t)$. An epidemic alert is raised when a certain threshold, say $k$, is surpassed, defined by $|y(t)-\mu > k|$, ($\mu$ being the mean value of the time-series distribution) within a confidence interval (usually of $95\%$).
+
+While this approach is very popular among epidemiologists for predicting and surveillance purposes, one has to be cautious about their use as the form of the equations relies usually on \textit{ad hoc} assumptions on the dependence between the dynamics of disease and the independent factors (variables) that determine its spread. In addition, the choice of the model (linear/nonlinear), assumptions on the statistical properties (for example independence, normal distribution, and fixed variance) of the unmodeled dynamics flash a ``note of caution” in their use especially for the surveillance and prediction of outbreaks of new emerging epidemics.
+
+\subsection{ARIMA}
+Auto-regressive Integrated Moving Average Model (ARIMA) is one of the most widely-used models for forecasting time series. This model assumes that the present data have a linear relationship with past data points and past errors of a time series. Box and Jenkins presented the ARIMA model in 1970 \cite{Box1976}. It has been widely used in financial, economic, and social science fields. An ARIMA model is often denoted as $\arima(p,d,q)$ where $p$ is the number of parameters in the autoregressive (AR) model, $d$ the differencing degree, and $q$ the number of parameters in the MA model. The general formulation of the ARIMA models is written as follows: 
+
+\begin{equation}\label{eq:ARIMA}
+    (1-\sum_{i=1}^{p}\phi_{i}L^{i})(1-L)^{d}X_{t}=(1+\sum_{i=1}^{q}\theta_{i}L^{i})\epsilon_{t}
+\end{equation}
+
+ARIMA is widely used across the world in TB modeling, particularly in predicting future incidence based on historical data, for example, \cite{ForecastGhana} in Ghana, \cite{ForecastBenin} in Benin, and \cite{ForecastIran} in Iran.
+
+\subsection{SARIMA}
+Although ARIMA provides a robust framework to analyze the time series data relevant to tuberculosis, it lacks one key component critical to TB modeling, the seasonality. It is well known that the incidence of many respiratory infections shows seasonal variation, and it is much less well documented for TB. In the pre-antibiotic era, the TB mortality rate was higher in late winter and early spring than that any other time of the year. Although the exact mechanism underlying the fluctuation of tuberculosis in a particular time of the year is still not clear, time series analysis of the seasonality provides evidence to identify the emerging concerns and provide evidence for prevention and control strategies on TB \cite{SeasonTBChina}. 
+
+Seasonal ARIMA (SARIMA) is a time series model that adds seasonality component to ARIMA. Seasonal ARIMA models are usually denoted as $\arima(p,d,q)\times(P,D,Q)_s$, where $(p,d,q)$ are parameters of a non-seasonal ARIMA model, $s$ refers to the number of periods in each season, and the uppercase $(P,D,Q)$ refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model. The general formulation is given by Equation (\ref{eq:SARIMA}), where $L_s$ is the seasonal difference (lag) operator.
+
+\begin{align}
+    & (1-\sum_{i=1}^{P}\Phi_{i}L_s^{i})(1-\sum_{i=1}^{p}\phi_{i}L^{i})(1-L_s)^{D}(1-L)^{d}X_{t}  \nonumber \\
+  = &(1+\sum_{i=1}^{Q}\Theta_{i}L_s^{i})(1+\sum_{i=1}^{q}\theta_{i}L^{i})\epsilon_{t} & \label{eq:SARIMA}
+\end{align}
+
+Most of the recent studies no longer use ARIMA without the seasonality part. Apart from the accurate identification of periodicity in TB, SARIMA also displays better forecast power than ARIMA \cite{ForecastChina2018}. In early studies, SARIMA is usually avoided due to high computation cost and which is disproportional to the marginal benefit. In modern research, SARIMA should take only a few minutes at most to complete the fitting and forecasting procedure.
+
+With the fast-growing interest in machine learning, researchers are also exploring novel ways to conduct time series analysis for epidemiological data. Various neural networks have been demonstrated useful as complements to the traditional SARIMA model. For examples in TB modeling, \cite{HybridModel2013} proposed a hybrid model based on SARIMA and the general regressive neural network (GRNN), and \cite{HybridModel2017} combines SARIMA with nonlinear autoregressive neural network (NAR) and obtain a better prediction of TB incidence.
+
+\section{Ordinary Differential Equations} % Differential Equations
+Unlike statistical models, which could as well be called ``empirical models'' and are based on direct observation, measurement, and extensive data records, mechanistic models are based on an understanding of the epidemiological features of the disease and the behavior of the disease as it spreads out. Mechanistic models allow us to not only draw statistical inference of an epidemic process, e.g. predict the incidence, but also study the underlying dynamics of the epidemic. In particular, mechanistic models enable us to model intervention through carefully changing the parameters in the model. One might, for example, study a model for the evolution of the disease to investigate the influence of quarantine or isolation of the infected part of the population. 
+
+Compartmental models are the most widely used deterministic epidemic models. The population is assumed to be homogeneous, well-mixed, and aggregated into a small set of compartments according to individual health states. Transitions of the population between different compartments are formulated using differential equations, with parameters modeling different factors such as the infection rate, onset rate of symptoms, and recovery rate. Due to the variance in epidemic progress of different diseases, infected individuals may have a variety of health states. Different kinds of compartmental models have been proposed, such as SIR (susceptible, infectious, and recovered) model, SIRS (susceptible, infectious, recovered and susceptible) model, SEIR (susceptible, exposed, infectious, and recovered) and SEAIR (susceptible, exposed, asymptomatic, infectious, and recovered) model.
+
+Such models can be explored using powerful analysis techniques for ordinary differential equations. However, due to the complexity and the stochasticity of the actual epidemic phenomena, most available compartmental models are often only qualitative sketches that cannot capture all of the details, therefore undermining the epidemiological realism.
+
+\subsection{SIR} % Begin with the classic SIR model
+From 1927 to 1933, Kermack and McKendrick published three seminal papers which founded the deterministic compartmental epidemic modeling \cite{KM1927,KM1932,KM1933}. In these papers, they studied the disease transmission process at a macro level, suggesting that the probability of infection of a susceptible is directly related to the number of its contacts with infected individuals. Hence, the rate at which susceptibles become infected is proportional to $SI$ where $S$ and $I$ represent population densities of susceptible and infected people, respectively. By modeling the rate of change from one state to another, e.g. from susceptible to infected, they formulated their model as a set of differential equations.
+
+Based on their theory is the very first and the most fundamental compartmental model, the SIR model. As the name suggests, in the SIR model, individuals go through three health states: \textbf{S}usceptible, \textbf{I}nfectious, and \textbf{R}ecovered. When susceptible individuals are infected by an epidemic with infection rate($\beta$), their states become infectious. Meanwhile, infectious individuals are able to transmit the epidemic. After the infectious period, infected individuals are changed to the recovered state with recovery rate $\gamma$, i.e. length of the period for which an individual can transmit the disease before recovering is $1/\gamma$. The recovered individuals are assumed to become immune to the epidemic. Assuming that the population is perfectly mixed and that every susceptible has the same probability of becoming infected the probabilities are equated to the expected (mean) values of the corresponding variables in the population. Equation (\ref{eq:SIR}) is the basic formulation of SIR model.
+
+\begin{align}
+\frac{dS}{dt} & =-\frac{\beta IS}{N} \nonumber \\
+\frac{dI}{dt} & = \frac{\beta IS}{N} - \gamma I \nonumber \\
+\frac{dR}{dt} & = \gamma I \label{eq:SIR}
+\end{align}
+
+Note that in the equation above the total population $N:=S+I+R$ stays constant and no vital dynamics are involved. In such a closed population, an epidemic will eventually die out due to an insufficient number of susceptible individuals to sustain the disease. Infected individuals who are added later will not start another epidemic due to the lifelong immunity of the existing population. However, on many occasions, we wish to account for the change in the total population, primarily due to natural birth and death. Below is the formulation with vital dynamics, where $\Lambda$ is the ``birth rate"" (or the introduction rate of susceptibles) and $\mu$ is the death rate.
+
+\begin{align*}
+\frac{dS}{dt} & =\Lambda -\frac{\beta IS}{N} -\mu S \\
+\frac{dI}{dt} & =\frac{\beta IS}{N} -\gamma I-\mu I \\
+\frac{dR}{dt} & =\gamma I-\mu R
+\end{align*}
+
+The vital dynamics introduced more interesting behaviors to the system and therefore allow us to model more complicated situations. For example, with the vital dynamics, the epidemic might break out when the birth rate $\Lambda$ and the infection rate $\beta$ are sufficiently large, or the population could be extinct if $\Lambda$ is significantly small. Vital dynamics could be similarly added to other models described below. However, usually for a single epidemic outbreak, the population change due to natural birth and death can often be properly neglected. Also for the purpose of a straightforward illustration, we will not include the vital dynamics in the models below.
+%% ************** IMPORTANT ****************
+%% Is this related to TB???
+%% Do people use SIRS to model TB???
+\subsection{SIRS}
+The SIR model assumes people carry lifelong immunity to a disease upon recovery; this is the case for a variety of diseases. For another class of airborne diseases, for example, seasonal influenza, an individual’s immunity may wane over time. In this case, the SIRS model is used to allow recovered individuals to return to a susceptible state. We assume a recovered individual becomes again susceptible after a period of time $1/\xi$, then on average, the rate of becoming susceptible again is $\xi R$. Equation (\ref{eq:SIRS}) gives a formulation of the SIRS model.
+
+\begin{align}
+\frac{dS}{dt} & =- \frac{\beta SI}{N} + \xi R \nonumber \\
+\frac{dI}{dt} & = \frac{\beta SI}{N} - \gamma I \nonumber\\
+\frac{dR}{dt} & = \gamma I - \xi R \label{eq:SIRS}
+\end{align}
+
+In other models, we can similarly add the $\xi R$ terms to model the potential loss of immunity, and get SEIRS model, SEAIRS model, and so on. However, in TB modeling, the primary focus is usually on a single outbreak and spread process. Therefore, medically treated and vaccinated individuals are unlikely to regain TB infection in the relatively short period of time. Thus, SIS, SIRS, SEIRS, or SEAIRS models are seldom used for TB modeling. For simplicity, we will not discuss this part in other models. 
+
+\subsection{SEIR}
+In the SEIR model, individuals go through one more state, the exposed state, before reaching the infectious state. The rationale is that many diseases, including TB, have a latent phase during which the individual is \textit{infected} but not yet \textit{infectious}.
+
+This delay between the latent phase and the infectious phase can be incorporated into the SIR model by adding an ``exposed" population, $E$. The susceptibles $S$, upon infection, instead of immediately becoming infectious $I$, first change to exposed $E$ and then, after a period, change to infectious $I$. This period of change is, on average, $1/\sigma$, where $\sigma$ is the incubation rate, i.e. the rate of latent individuals becoming infectious. The formulation is given by Equation (\ref{eq:SEIR}).
+
+Since the latency delays the start of the individual’s infectious period, the secondary spread from an infected individual will occur at a later time compared with a SIR model, which has no latency. Therefore, including a longer latency period will result in slower initial growth of the outbreak. However, since the model does not include mortality, the basic reproductive number, $R0 = \frac{\beta}{\gamma}$, does not change. The complete course of the outbreak is observed. After the initial fast growth, the epidemic depletes the susceptible population. Eventually, the virus cannot find enough new susceptible people and dies out. Introducing the incubation period does not change the cumulative number of infected individuals.
+
+\begin{align}
+\frac{dS}{dt} &= -\frac{\beta IS}{N} \nonumber\\
+\frac{dE}{dt} &= \frac{\beta IS}{N}- \sigma E \nonumber\\
+\frac{dI}{dt} &= \sigma E- \gamma I \nonumber\\
+\frac{dR}{dt} &= \gamma I \label{eq:SEIR}
+\end{align}
+
+For tuberculosis, the exposed stage is particularly important. Latent tuberculosis infection (LTBI) is defined as a state of the persistent immune response to stimulation by Mycobacterium tuberculosis antigens with no evidence of clinically manifest active TB. As there is no ``gold standard” test for LTBI, the global burden is not known with certainty; however, one of the most widely quoted statistics is that up to one third of the world’s population is estimated to be infected with M. tuberculosis \cite{Eimportance1}\cite{Eimportance2}, and the vast majority have no signs or symptoms of TB disease and are not infectious, although they are at risk for active TB disease and for becoming infectious. It is estimated that the lifetime risk of an individual with LTBI for progression to active TB is $5-10\%$ \cite{Eimportance3}. Several studies have shown that, on average, $5-10\%$ of those infected will develop active TB disease over the course of their lives, usually within the first 5 years after the initial infection.
+
+For the reasons above, SEIR model and its variants are widely used today as the state-of-the-art compartmental model in tuberculosis modeling since it takes into account the important latency (exposed) stage. Some recent applications of this model are \cite{SEIRapp1,SEIRapp2,SEIRapp3}, where researchers model the evolution of certain epidemic outbreaks with SEIR, and \cite{SEIRitv1}, where the SEIR model is used to model the effect of intervention with vaccine and quarantine. Researchers also carefully study the intricate mathematical structures behind these seemingly simple equations. One of the recent studies of the mathematical properties of the SEIR model includes \cite{SEIRstd1}.
+
+\subsection{SEAIR}
+A significant fraction of people who have been infected never develop symptoms, so they will never be detected. However, during an asymptomatic infection, they are capable of transmitting the disease. To account for such effect, Knipl, R\"{o}st, and Wu proposed the SEAIR model in 2009 \cite{SEAIR}. Originally, the model was used to model influenza.
+
+The SEAIR model divides the infectious category $I$ in the SEIR model into two categories, the symptomatically infectious $I$, and the asymptomatically infectious $A$. Upon adequate contact with an infectious, susceptibles move into the category $E$. After the incubation period, they become infectious. They develop symptoms with probability $p$, or become asymptomatic infected with probability $1 - p$. At the same time, asymptomatically infected individuals are less infectious than the symptomatically infected individuals by a factor $\delta$. For example, on average, a susceptible becomes exposed after contact with 10 symptomatically infectious individuals, whereas it takes $10/\delta$ asymptotically individual to infect a susceptible. In the original paper of Knipl, R\"{o}st and Wu, $\delta$ is taken to be $0.7071$. Due to different levels of severity and different intervention measures, the recovery rates for $A$ and $I$ are different, $\gamma_I$ and $\gamma_A$ for the symptomatically and asymptomatically infected cases, respectively. Like we discussed earlier, the meaning of the parameters is that on average, an individual takes $1/\gamma_I$ or $1/\gamma_A$ days to recover, respectively. Equation (\ref{eq:SEAIR}) gives the mathematical formulation of the SEAIR model.
+% Maybe need a flow chart
+\begin{align}
+\frac{dS}{dt} &= -\frac{\beta (I + \delta A)S}{N} \nonumber\\
+\frac{dE}{dt} &= \frac{\beta (I + \delta A)S}{N}- \sigma E \nonumber\\
+\frac{dA}{dt} &= (1-p)\sigma E - \gamma_A A \nonumber\\
+\frac{dI}{dt} &= p\sigma E - \gamma_I I \nonumber\\
+\frac{dR}{dt} &= \gamma_I I + \gamma_A A \label{eq:SEAIR}
+\end{align}
+
+Since the SEAIR model was published, it has been gaining popularity in modeling influenza. For TB, the asymptomatic infectious stage is also highly relevant. Infectiousness of TB may be present prior to the onset of symptoms \cite{Aimportance1}\cite{Aimportance2}\cite{Aimportance3}. In fact, there is a spectrum in the clinical course of tuberculosis \cite{Aimportance4} including: subclinical tuberculosis (characterized by negative results of tuberculosis symptom screening but positive results of culture, with tuberculosis presumably infectious); prediagnostic disease (characterized by symptoms that are sufficiently noticeable for detection during symptom screening but not sufficiently severe to seek medical care); and clinical disease (characterized by active seeking of care for symptoms, although often after delays due to difficulties differentiating between other respiratory tract infections in settings where clinical diagnosis remains standard practice) \cite{Aimportance5}. Given these complexities, including the independent nature of these parameters, the relative contributions of highly infectious individuals versus apparently asymptomatic but infectious individuals in settings of high tuberculosis endemicity are uncertain. However, at the time of writing, we are not aware of any application of the SEAIR model to TB modeling, but we believe that the SEAIR model should have its advantage in TB modeling for the reasons discussed above.
+
+\section{Individual based models}
+
+The mechanistic models greatly enhance our understanding of the macroscopic characteristics of epidemic diseases and allow us to study the intervention measures on a qualitative basis. Nonetheless, there is a pressing desire to deepen our understanding of the microscopic dynamics of epidemics and a method to quantitatively investigate the disease control measures so as to enable detailed policymaking. Individual-based models (IBM), or sometimes referred to as agent-based models, are a promising computational approach to serve such purpose. They are increasingly used to study the complex evolutionary process of epidemic spread and evaluate the efficacy of detailed disease control measures.
+
+In an IBM, each individual human host, or animal host, if there is any, is viewed as an individual agent whose status changes based on probabilistic events occurring over time. The model simulates the interaction between agents and the spread of the disease with algorithms and rules specifying the behavior and responses of agents. Individual-based models consider the unstable population and imperfect mixing. It allows a high degree of heterogeneity for the creation, disappearance, and movement of a finite collection of discrete interacting individuals. Nonetheless, IBMs are still simulations that extract the features of interest from reality with certain methods of abstraction. In a nutshell, the major components of IBMs include agents, the environment where agents reside, the rules that govern the dynamics of agents, and time scales on which these rules are executed. In an ABM, cells, receptors, or any entity of interest are represented as discrete software objects (``agents”) and placed on a lattice. Numerous methods and frameworks have been developed for individual-based epidemic modeling. A distinction in the IBMs can be designated by whether the model is based on a simple lattice and a fixed set of behavior rules or based on simulations of realistic data such as urban geographical, transportation information, social networks, and aerodynamics of the disease transmission.
+
+\subsection{Basic Model Formulation}
+
+One of the most important components in IBM is the rules governing the movement and transportation of human agents, i.e. the mobility pattern which largely determines the epidemic diffusion process. Random processes, such as the random walk model \cite{RandomWalk}, are often used to represent human mobility patterns. This kind of model is a mathematical formulation of a path that consists of a sequence of random steps. In a popular large-scale individual-based model software BioWar, movement of agents between different locations are described as discrete flight events. Agents are randomly moved to appropriate locations at the beginning of each time tick. On a national or state level, gravity models \cite{GravityModel} are often used to model human mobility patterns in individual-based models of epidemics.
+\[C_{i j} = \theta \frac{P^{\tau_1}_i P^{\tau_2}_j}{D^\rho_{ij}}\]
+where $C_{i j}$ is the population interaction coefficient between location $i$ and location $j$. $P_i$ and $P_j$ are the population size of location $i$ and location $j$. $D_{i j}$ is the distance between location $i$ and location $j$. $\rho$, $\tau_1$, and $\tau_2$ are estimated parameters. At each time $t$, the location of each agent is accordingly changed, leading to a change in its environment and the set of neighboring agents.
+
+Another factor of primary significance in determining the performance of IBM is how agents, especially human agents interact, or simply, contact with each other. Human contact patterns act as the primary force to drive the spread of epidemics \cite{IBMReview2017}. Accurate representation of human contact patterns is crucial for IBMs to simulate and display reasonable and realistic macro phenomena of epidemic diffusion. In IBMs of epidemics, social networks are widely used to formulate agent contact patterns \cite{IBMSurvey2018}. Moreover, in simple synthetic lattice models, weighted networks have been increasingly used to represent heterogeneous contact patterns between agents. Many studies share the same definition and formulation for the social network between agents \cite{SN1,SN2,SN3}, where all the agents are viewed as a network/graph and the contact probabilities are defined as a function of edge weights:
+\[p_{ij} = \frac{w_{ij}}{\sum_{k\in N_{i}(t)}w_{ik}}\]
+where $p_{ij}$ is the probability that agent $i$ contacts agent $j$, $w_{i j}$ is the weight of the edge between agent $i$ and agent $j$, and $N_i(t)$ is the set of neighbors that agent $i$ contact with at time $t$. $N_i(t)$ dynamically changes with time as a result of changing spatial constraints, temporal constraints, and nonpharmaceutical interventions such as quarantine. At every time step $t$, each agent contacts every other agent with the corresponding probability and changes its state and behavior accordingly. 
+
+After contact, the behavior change of the agent is often modeled as a decision-making flowchart or an equivalent algorithm consisting of a long list of IF statements. The change in the health state, e.g. from healthy to infected or from asymptomatic to symptomatic, is often modeled on the basis of a compartmental model. For example, if the classical Susceptible-Infected-Recovered (SIR) model is chosen as the backbone, then an susceptible individual belonging to $S$ category, after contact with infectious agents, will acquire infection and change to infected category $I$ at a probability of $1-(1-\beta)^n$, where $\beta$ is the infection rate and $n$ the number of individuals he/she makes contact with at the time.
+
+In the last decade, IBM has been introduced into the study of TB epidemiology and gradually expanded its field of application. One reason for the increasing popularity of such models is their potential to provide enhanced realism by allowing system-level behaviors to emerge as a consequence of accumulated individual-level interactions, as occurs in real populations \cite{Review2018,TB2013}. Some application of IBMs on TB include \cite{Arkansas2011,Canada2017,Barcelona2016,TBinBarcelona2015}. In particular, microstructure and dynamics such as transmission within households, schools, and workplaces, together with a component of casual, distance-dependent contacts were considered by \cite{IBMTB2011} and the proposed IBM was demonstrated to model the truth more accurately. \cite{IBMTB2015} proposes a lattice-based model specifically for the study of TB modeling. \cite{IBMTB2017} utilized a simple IBM model consisting of a network with an SEIR backbone to investigate the development of TB during the last 20 years in certain states of the US. \cite{IBMTB2014} uses a similar model to study national historical data to draw conclusions on the relationship between immigration and TB spread.
+
+\subsection{Realistic simulation}
+
+In the past few years, with the boost in computation power and the invention of intelligent algorithms and computing
+frameworks, individual-based models become increasingly subtle, detailed, and realistic, with a rise of the models based on large-scale realistic simulation. These large scale agent-based systems usually rely on the availability of demographic data and environment data. Meanwhile, geographic information system (GIS) techniques are also used in these systems to visualize epidemic outbreaks in geographical landscapes. For example, the Los Alamos National Laboratory developed the Object-oriented Platform for People in Infectious Epidemics (OPPIE), previously known as EpiSimS \cite{EpiSimS1,EpiSimS2,EpiSimS3}, to study the outbreak and spread of influenza. OPPIE is an agent-based model, or simulation platform, that combines the demographic-based population of a region, a network of specific business and home locations, and the movement of individuals between locations as daily itineraries. The researchers claimed that they simulated the spread of an influenza epidemic using a synthetic population constructed to statistically match the 2000 U.S. Census population demographics of Southern California at the census tract level. There are 20 million individuals living in 6 million households, with an additional 1 million locations representing actual schools, businesses, shops, and social recreation addresses. This synthetic population only represents individuals reported as household residents; thus, visiting tourists, guests in hotels, and travelers in airports are not explicitly included. Each individual has a schedule of activities based on the National Household Transportation Survey (NHTS). A schedule specifies the type of activity, the starting and ending time, and the location of each assigned activity. There are six types of activities: home, work, shopping, social recreation, school, and others. The time, duration, and location of activities determines which individuals mix together at the same location at the same time, which is relevant for airborne transmission. Each location is geographically located using the Dun \& Bradstreet commercial database. Each building is subdivided based on the number of activities available at that location. There are one or more buildings per activity that are further subdivided into rooms or mixing places. Schools have classrooms, workplaces have work rooms or offices, and shopping malls have shops. Typical room sizes can be specified; for example, for workplaces, the mean workgroup size varies by standard industry classification (SIC) code. The number of rooms in each building is computed by dividing the peak occupancy by the appropriate mixing group size. They used two data sources to estimate the mean workgroup by SIC including a study on employment density and a study on commercial building usage from the Department of Energy.
+
+However, we did not find any studies utilizing such large scale models on TB. Although the scale for a TB outbreak is typically smaller than that of influenza, we believe that large-scale studies might provide insights into the long-time behavior of TB and might reveal underlying patterns of the epidemic nature of TB.
+
+\section{Other Studies}
+So far, all the models we discussed are not specifically invented for tuberculosis. Most of them were adapted from other fields of science such as statistics, mathematics, or physics. The IBMs started with their applications in influenza and malaria. There were certain models that proved particularly useful for TB modeling, such as SARIMA and SEIR. Furthermore, novel models or major changes to existing models have been proposed since the very beginning to account for the features unique to TB.
+
+\subsection{Drug resistance}
+Drug resistance is the most imperative concern of curing TB, especially the multi-drug-resistant- (MDR) and the extensive-drug-resistant- (XDR) TB. A Chinese study done in 2017 showed that out of 37600 cases, 860 (16.7\%) cases were MDR-TB and 176 (3.4\%) were XDR-TB. MDR-TB and XDR-TB were detected in respectively 21.2\% and 12.5\% of new cases. The rate of MDR-TB and XDR-TB gradually increased from 2005, with MDR-TB reaching a peak in 2008 and XDR-TB in 2009 \cite{China2017}.
+
+In terms of constructing mathematical models for MDR- and XDR-TB, the drug-resistant cases display quite different behaviors and dynamics compared to non-drug-resistant cases. \cite{DR1} proposed an agent-based SIR model that divides category $I$ further into drug-sensitive infections $I^s$ and drug-resistant infections $I^r$, and category $R$ to effectively treated $R^e$ and not effectively treated $R^n$. The individuals infected with drug-resistant TB are treated with effective treatment with a probability of $p$. In reality, the ineffective treatment could be caused by clinical failure to identify the drug resistance or by the drug resistance itself. The proposed approach is compared with a classic SIR agent-based model and shows significantly better performance than the latter.
+
+Within the MDR-TB, there also exists a degree of variance in reproductive fitness. \cite{DR4}, on the basis of divided drug sensitive and resistant categories, further divide the MDR-TB cases to reproductive unfit and reproductive fit, and fit different parameters to both cases. \cite{DR5,DR2} base their models on the traditional SIS model, where the different levels reproductive fitness are treated like a spectrum rather than two categories. In \cite{DR3}, an individual based model was built with a nicely realistic decision-making chart, including early detection of the disease, latent period, long or brief, and even the period waiting for testing and treatment.
+% HIV/TB 有时间再说吧
+\section{Discussion}
+From the discussion above, we reviewed three major types of epidemiological modeling for tuberculosis, statistical models, mechanistic models, and individual-based models. We must notice that all three approaches have their own perspective and goal of study. For example, although IBMs seem beautifully realistic and comprehensive, they are not designed for forecasting the incidence on a seasonal or yearly basis. To use IBMs for such purposes which would be a total waste for resource and the effort would obviously be in vain.
+
+Mechanistic models formulated by ordinary differential equations remain the most widely used and the most versatile method. They allow us to combine the data with our knowledge and the experience of the disease itself. They are also flexible and adaptive. Adding certain categories or subdivide one category into two will make the model better capture the dynamics of a certain group of people or account for certain features of TB. One thing to reiterate is that SEAIR model, as useful and reasonable as it seems, has not gained attention in the field and we believe that it should at least outperform the SEIR model and provides more flexibility.
+
+Based on mechanistic models, various individual based or agent-based models are becoming the most prospective approach as computation power is less and less of a concern today. In particular, the ones based on realistic demography, geography, social networks, and real decision making, e.g. OPPIE, provide the incomparable realisticity and the incredibly detailed evaluation of control and intervention measures. With the increasing availability of all kinds of data related to human contact and mobility pattern and the integration between different sources of data, large-scale IBMs should be the most promising direction for TB modeling.
+
+\section{Author contribution}
+TC and BZ designed the research; TC, XM, and SJ wrote the article; The final version was approved by all authors.
+
+\section{Declaration of competing interests}
+The authors declare that there are no conflicts of interest.
+
+\section{Human subjects approval statement}
+None.
+
+\section{Funding}
+This work was partly supported by the Open Research Fund of State Key Laboratory of Molecular Vaccinology and Molecular Diagnostics (SKLVD2018KF001 and SKLVD2018KF002).
+
+\bibliography{reference}
+\bibliographystyle{ieeetr}
+
+\end{document}
